@@ -30,14 +30,73 @@ function scrollToEl(selector) {
 // ---------- GSAP Animations ----------
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero
-gsap.timeline()
-  .from('.badge', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' })
-  .from('.hero-title', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
-  .from('.hero-subtitle', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
-  .from('.hero-desc', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
-  .from('.hero-actions', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
-  .from('.hero-visual', { x: 50, opacity: 0, duration: 1, ease: 'power2.out' }, '-=0.8');
+// Custom cursor effect for interactive elements
+const cursor = document.createElement('div');
+cursor.className = 'custom-cursor';
+document.body.appendChild(cursor);
+
+document.addEventListener('mousemove', (e) => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-bar');
+interactiveElements.forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+});
+
+// Hero animations
+const heroTl = gsap.timeline({
+  defaults: { duration: 1, ease: 'expo.out' }
+});
+
+heroTl
+  .from('.navbar', { y: -100, opacity: 0 })
+  .from('.badge', { y: 40, opacity: 0 }, '-=0.6')
+  .from('.hero-title', { y: 40, opacity: 0, duration: 1.2 }, '-=0.4')
+  .from('.hero-subtitle', { y: 40, opacity: 0 }, '-=0.8')
+  .from('.hero-desc', { y: 40, opacity: 0 }, '-=0.6')
+  .from('.hero-actions', { y: 40, opacity: 0 }, '-=0.4')
+  .from('.hero-visual', {
+    x: 60,
+    opacity: 0,
+    rotate: 6,
+    duration: 1.2,
+  }, '-=0.8')
+  .from('.code-card', {
+    x: 100,
+    opacity: 0,
+    rotate: -12,
+    duration: 1.2
+  }, '-=0.8');
+
+// About section counters
+const stats = gsap.utils.toArray('.stat');
+stats.forEach(statContainer => {
+  const stat = statContainer.querySelector('h4');
+  const suffix = statContainer.dataset.suffix || '';
+  const target = parseInt(stat.textContent.replace(/[^\d]/g, ''));
+  let value = { val: 0 };
+  
+  gsap.set(stat, { textContent: '0' + suffix });
+  
+  ScrollTrigger.create({
+    trigger: statContainer,
+    start: 'top 80%',
+    onEnter: () => {
+      gsap.to(value, {
+        val: target,
+        duration: 2.5,
+        ease: 'power2.inOut',
+        onUpdate: () => {
+          stat.textContent = Math.round(value.val).toLocaleString() + suffix;
+        }
+      });
+    },
+    once: true
+  });
+});
 
 // Skill bars
 gsap.utils.toArray('.skill-bar .fill').forEach((bar) => {
