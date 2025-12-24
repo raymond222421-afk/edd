@@ -275,19 +275,25 @@
             </div>
           </div>
         </div>
-        <form class="contact-form" id="contactForm">
-          <input type="text" name="name" placeholder="Your Name" required>
-          <input type="email" name="email" placeholder="Email Address" required>
-          <select name="projectType" required>
+        <form class="contact-form" action="https://submit-form.com/qHxAE2CQD" method="POST">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Name" required />
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Email" required />
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="Phone Number" required />
+          <label for="projectType">Project Type</label>
+          <select name="projectType" id="projectType" required>
             <option value="">Project Type</option>
-            <option>Web Development</option>
-            <option>Blockchain / DeFi</option>
-            <option>Automation / Funnels</option>
-            <option>Mobile App</option>
-            <option>Consultation</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Blockchain / DeFi">Blockchain / DeFi</option>
+            <option value="Automation / Funnels">Automation / Funnels</option>
+            <option value="Mobile App">Mobile App</option>
+            <option value="Consultation">Consultation</option>
           </select>
-          <textarea name="message" placeholder="Tell me about your project" rows="5" required></textarea>
-          <button type="submit" class="btn btn-primary">Send Message</button>
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Message" required></textarea>
+          <button type="submit" class="btn btn-primary">Send</button>
         </form>
       </div>
     </div>
